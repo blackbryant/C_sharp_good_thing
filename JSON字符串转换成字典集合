@@ -1,0 +1,74 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
+using System.Text;
+using System.Threading.Tasks;
+using ConsoleApp1;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using UMyExtensions;
+
+namespace ConsoleApp1
+{
+    public class JSON字符串转换成字典集合
+    {
+       
+
+            class Pet
+            {
+                public int Id { get; set; }
+                public string Weight { get; set; }
+
+                public string Size { get; set; }
+
+                public string PetString { get; set; }
+                //JSON字符串转换成字典集合
+                public Dictionary<string, string> PetDict
+                {
+                    get 
+                    {
+                        if (string.IsNullOrEmpty(PetString)) 
+                        {
+                            return new Dictionary<string,string>();
+                        }
+
+                        try
+                        {
+
+                            var obj = JToken.Parse(PetString); 
+
+                        }
+                        catch (Exception ex) 
+                        {
+                            throw new FormatException("Formate error "); 
+                        }
+                        return JsonConvert.DeserializeObject<Dictionary<string, string>>(PetString);
+                    }
+            
+            
+                }
+
+            }
+
+            static void Main(string[] args)
+            {
+                Pet pet = new Pet(); 
+                pet.PetString = "{'size':'10', 'weight':'10kg','weight':'20kg'}";
+
+                foreach(var item in pet.PetDict) 
+                {
+
+                    Console.WriteLine(item.Key + " " + item.Value);
+
+
+                }
+
+
+
+                Console.Read();
+
+            }
+
+    }
+}
